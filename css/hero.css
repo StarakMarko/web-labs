@@ -1,0 +1,96 @@
+.hero-section {
+    background-image: url(../images/Image.svg);
+    background-repeat: no-repeat;
+    background-position: right -450px top 150px;
+    height: 700px;
+}
+
+.article__upper {
+
+    width: 540px;
+    padding-bottom: 40px;
+    padding-top: 50px;
+
+}
+
+.hero__middle {
+    display: flex;
+}
+
+.hero__title {
+    color: #091133;
+}
+
+.hero__paragraph {
+    font-size: 16px;
+    line-height: 24px;
+    margin-bottom: 10px;
+}
+
+.container-item {
+    display: flex;
+    justify-content: space-between;
+}
+
+.text-box {
+    padding-top: 300px;
+}
+
+.feature-item {
+    width: 255px;
+    padding-right: 20px;
+}
+
+.feature-icon {
+    padding-top: 40px;
+}
+
+.small__paragraph {
+    font-size: 12px;
+    color: #5D6970;
+    line-height: 18px;
+}
+
+
+.girl-image {
+    margin-top: 260px;
+    margin-left: 100px;
+
+}
+
+.prices__box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pricing__title {
+    width: 730px;
+    margin-top: 150px;
+}
+
+.price__container {
+    width: 350px;
+    margin-top: 90px;
+}
+
+.pricing {
+    color: #37447E;
+}
+
+.pricing__options {
+    margin-bottom: 10px;
+}
+
+.pricing__description {
+    font-size: 14px;
+    color: #5D6970;
+    margin-bottom: 10px;
+    line-height: 24px;
+}
+
+.purchase__button {
+    width: 189px;
+    height: 26px;
+    margin-top: 20px;
+}

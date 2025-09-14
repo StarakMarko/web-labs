@@ -1,0 +1,102 @@
+.footer {
+    background-color: #E7ECFF;
+    margin-top: 200px;
+}
+
+.bottom {
+    padding-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.mark {
+    align-self: flex-start;
+    font-size: 14px;
+    color: #939EA4;
+}
+
+.footer__title {
+    padding-top: 10px;
+    align-self: flex-end;
+    font-weight: 900;
+    font-size: 26px;
+    color: #37447E;
+    margin-bottom: 0px;
+
+}
+
+hr {
+    border: none;
+    height: 1px;
+    background-color: #CDD1D4;
+    margin: 40px;
+}
+
+.bottom__button {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
+
+.iot__button {
+    margin-bottom: 20px;
+    padding: 0;
+    width: 109px;
+    height: 26px;
+}
+
+.bottom__nav {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 2px;
+}
+
+.bottom__nav-list {
+    margin: 0;
+    padding: 0;
+    width: 260px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.bottom__nav-item {
+    text-align: center;
+    width: 50px;
+    margin: 0;
+    padding: 2px;
+    font-size: 14px;
+    color: #929ECC;
+}
+
+.icons {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+.icons__list {
+    width: 200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.Icon {
+    margin: 0;
+    padding: 0;
+}
+
+.social-icon {
+    margin: 0;
+    padding: 0;
+}
