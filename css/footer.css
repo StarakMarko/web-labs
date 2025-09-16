@@ -31,7 +31,8 @@ hr {
     border: none;
     height: 1px;
     background-color: #CDD1D4;
-    margin: 40px;
+    margin-top: 35px;
+    margin-bottom: 30px;
 }
 
 .bottom__button {
