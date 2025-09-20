@@ -44,9 +44,16 @@ hr {
 
 .iot__button {
     margin-bottom: 20px;
-    padding: 0;
     width: 109px;
     height: 26px;
+    background-color: #111B47;
+    border: 0;
+    color: #FFFFFF;
+    border-radius: 2px;
+    font-size: 12px;
+    font-weight: 500;
+    padding-top: 12px;
+    text-align: center;
 }
 
 .bottom__nav {

@@ -25,13 +25,32 @@
 }
 
 .header__learn-more {
+    display: inline-block;
     width: 104px;
     margin: 20px;
+    background-color: #111B47;
+    border: 0;
+    color: #FFFFFF;
+    border-radius: 2px;
+    font-size: 12px;
+    font-weight: 500;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    text-align: center;
 }
 
 .header__buy-now {
+    display: inline-block;
     background-color: #FFD166;
     width: 104px;
     color: #111B47;
+    margin: 20px;
+    border: 0;
+    border-radius: 2px;
+    font-size: 12px;
+    font-weight: 500;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    text-align: center;
 
 }
