@@ -4,7 +4,17 @@ body {
 
 }
 
+@media screen and (max-width: 768px) {
+    body {
+        text-align: center;
+    }
+}
 
+@media screen and (max-width: 768px) {
+    :root {
+        font-size: 12px;
+    }
+}
 
 .container {
     margin: 0 auto;
@@ -14,6 +24,13 @@ body {
 .bottom__container {
     margin: 0 auto;
     max-width: 1250px;
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 0 40px;
+    }
+
 }
 
 a {

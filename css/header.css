@@ -4,6 +4,20 @@
     align-items: center;
 }
 
+.header__menu {
+    display: none;
+    width: 32px;
+    cursor: pointer;
+}
+
+.header__menu>img {
+    max-width: 100%;
+}
+
+.header__menu-icon {
+    width: 40px;
+}
+
 .header__nav {
     margin-left: auto;
 }
@@ -53,4 +67,61 @@
     padding-bottom: 4px;
     text-align: center;
 
+}
+
+@media screen and (max-width: 768px) {
+    .header {
+        position: fixed;
+        left: 0;
+        right: 0;
+        padding: 20px;
+        background-color: #FFFFFF;
+        z-index: 10;
+    }
+
+    .header__menu {
+        display: block;
+    }
+
+    .header__learn-more {
+        display: none;
+    }
+
+    .header__buy-now {
+        display: none;
+    }
+
+    .header__nav {
+        background-color: #E7ECFF;
+        position: fixed;
+        top: 72px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin-top: 0;
+        clip-path: circle(0 at top left);
+        transition: clip-path 0.9s ease-in;
+    }
+
+    .header__nav.open {
+        clip-path: circle(1000px at top);
+        z-index: 100;
+    }
+
+    .header__nav ul {
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .header__nav .header__nav-item {
+        margin-right: 0;
+        padding-top: 10vh;
+        flex: 1;
+    }
+
+    .header__nav a {
+        font-weight: 500;
+        display: block;
+        font-size: 32px;
+    }
 }

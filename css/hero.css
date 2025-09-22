@@ -1,16 +1,15 @@
-.hero-section {
-    background-image: url(../images/Image.svg);
-    background-repeat: no-repeat;
-    background-position: right -450px top 150px;
-    height: 700px;
-}
-
 .article__upper {
-
     width: 540px;
     padding-bottom: 40px;
     padding-top: 50px;
 
+}
+
+.mobile__wrapper {
+    width: 590px;
+    height: 570px;
+    overflow: hidden;
+    position: relative;
 }
 
 .hero__middle {
@@ -32,6 +31,11 @@
     justify-content: space-between;
 }
 
+.hero__container {
+    display: flex;
+    justify-content: space-between;
+}
+
 .text-box {
     padding-top: 300px;
 }
@@ -43,6 +47,9 @@
 
 .feature-icon {
     padding-top: 40px;
+    animation: floating 3s linear infinite;
+    position: relative;
+    z-index: -1;
 }
 
 .small__paragraph {
@@ -70,7 +77,7 @@
 }
 
 .price__container {
-    width: 350px;
+    width: 320px;
     margin-top: 90px;
 }
 
@@ -103,4 +110,102 @@
     font-size: 12px;
     font-weight: 500;
     text-align: center;
+    animation: scaling 1s linear infinite;
+}
+
+@media screen and (max-width: 1150px) {
+    .hero__middle {
+        flex-direction: column;
+        margin: 0 auto;
+    }
+
+    .text-box {
+        margin: 0 auto;
+    }
+
+    .girl-image {
+        margin: 0 auto;
+        transform: scale(1);
+        z-index: -1;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .hero__container {
+        margin: 0 auto;
+        padding: 0;
+        text-align: center
+    }
+
+    .container-item {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+        padding: 0;
+        text-align: center
+    }
+
+    .hero-section {
+        background-image: none;
+
+    }
+
+    .article__upper {
+        width: 85vw;
+        text-align: center;
+        justify-content: center;
+        margin: 0 auto;
+    }
+
+    .text-box {
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
+        padding: 0;
+        padding-top: 40px;
+        justify-content: center;
+        align-items: center;
+        text-align: center
+    }
+
+    .hero__middle {
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .hero__paragraph {
+        width: 85vw;
+        margin: 0 auto;
+        padding: 0;
+        text-align: center
+    }
+
+
+    .pricing__title {
+        width: 85vw;
+        margin: 0 auto;
+        padding: 0;
+        padding-top: 40px;
+        text-align: center;
+    }
+
+
+    .prices__box {
+        flex-direction: column;
+    }
+
+    .girl-image {
+        margin: 40px 0;
+    }
+
+    .purchase__button {
+        padding: 0;
+        margin: 20px auto;
+    }
+
+    .mobile__image {
+        display: none;
+    }
+
 }

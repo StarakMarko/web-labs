@@ -15,8 +15,11 @@
 <body>
     <div class="container">
         <header class="header">
+            <div class="header__menu" onclick="toggleMenu()">
+                <img src="images/menu-icon.svg" alt="Menu icon">
+            </div>
             <div class="header__title">Landie</div>
-            <nav class="header__nav">
+            <nav id="nav-links" class="header__nav">
                 <ul>
                     <li class="header__nav-item"><a href="">Home</a></li>
                     <li class="header__nav-item"><a href="">About</a></li>
@@ -33,35 +36,44 @@
     <div class="hero-section">
         <main>
             <div class="container">
-                <article class="article__upper">
-                    <h1 class="hero__title">Introduce Your Product Quickly & Effectively</h1>
-                    <p class="hero__paragraph">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo
-                        ligula
-                        eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur
-                        ridiculus </p>
-                    <p class="hero__paragraph">mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
-                        Nulla
-                        consequat massa quis enim.</p>
-                    <div class="container-item">
-                        <div class="feature-item">
-                            <img src="./images/Icon.svg" alt="Feature Icon" class="feature-icon">
-                            <h4>Title Goes Here</h4>
-                            <p class="small__paragraph">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
-                                commodo ligula eget
-                                dolor.
-                            </p>
+                <div class="hero__container">
+                    <article class="article__upper">
+                        <h1 class="hero__title">Introduce Your Product Quickly & Effectively</h1>
+                        <p class="hero__paragraph">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
+                            commodo
+                            ligula
+                            eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes,
+                            nascetur
+                            ridiculus </p>
+                        <p class="hero__paragraph">mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis,
+                            sem.
+                            Nulla
+                            consequat massa quis enim.</p>
+                        <div class="container-item">
+                            <div class="feature-item">
+                                <img src="./images/Icon.svg" alt="Feature Icon" class="feature-icon">
+                                <h4>Title Goes Here</h4>
+                                <p class="small__paragraph">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+                                    Aenean
+                                    commodo ligula eget
+                                    dolor.
+                                </p>
+                            </div>
+                            <div class="feature-item">
+                                <img src="./images/Icon.svg" alt="Feature Icon" class="feature-icon">
+                                <h4>Title Goes Here</h4>
+                                <p class="small__paragraph">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+                                    Aenean
+                                    commodo ligula eget
+                                    dolor.
+                                </p>
+                            </div>
                         </div>
-                        <div class="feature-item">
-                            <img src="./images/Icon.svg" alt="Feature Icon" class="feature-icon">
-                            <h4>Title Goes Here</h4>
-                            <p class="small__paragraph">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
-                                commodo ligula eget
-                                dolor.
-                            </p>
-                        </div>
+                    </article>
+                    <div class="mobile__wrapper">
+                        <img src="./images/Image.svg" alt="mobile Icon" class="mobile__image">
                     </div>
-                </article>
-
+                </div>
                 <div class="hero__middle">
                     <article class="text-box">
                         <h1 class="hero__title">Light, Fast & Powerful</h1>
@@ -178,6 +190,8 @@
             </div>
         </footer>
     </div>
+
+    <script src="js/main.js"></script>
 </body>
 
 </html>
