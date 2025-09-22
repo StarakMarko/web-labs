@@ -114,6 +114,10 @@
 }
 
 @media screen and (max-width: 1150px) {
+    .container {
+        padding: 0 40px;
+    }
+
     .hero__middle {
         flex-direction: column;
         margin: 0 auto;
@@ -132,9 +136,15 @@
 
 @media screen and (max-width: 768px) {
     .hero__container {
-        margin: 0 auto;
+        flex-direction: column;
+        margin: 0;
         padding: 0;
-        text-align: center
+        text-align: center;
+        justify-content: center;
+    }
+
+    .mobile__wrapper {
+        display: none;
     }
 
     .container-item {
@@ -183,6 +193,9 @@
 
 
     .pricing__title {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         width: 85vw;
         margin: 0 auto;
         padding: 0;
@@ -206,6 +219,10 @@
 
     .mobile__image {
         display: none;
+    }
+
+    .feature-item {
+        padding-right: 0;
     }
 
 }
