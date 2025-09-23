@@ -106,7 +106,9 @@
     .header__nav.open {
         clip-path: circle(1000px at top);
         z-index: 100;
+        overflow: auto;
     }
+
 
     .header__nav ul {
         flex-direction: column;

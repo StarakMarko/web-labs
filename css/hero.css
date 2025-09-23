@@ -115,7 +115,7 @@
 
 @media screen and (max-width: 1150px) {
     .container {
-        padding: 0 40px;
+        padding: 0 15px;
     }
 
     .hero__middle {
@@ -162,7 +162,7 @@
     }
 
     .article__upper {
-        width: 85vw;
+        width: 100%;
         text-align: center;
         justify-content: center;
         margin: 0 auto;
@@ -185,7 +185,7 @@
     }
 
     .hero__paragraph {
-        width: 85vw;
+        width: 100%;
         margin: 0 auto;
         padding: 0;
         text-align: center
@@ -196,7 +196,7 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        width: 85vw;
+        width: 100%;
         margin: 0 auto;
         padding: 0;
         padding-top: 40px;
@@ -223,6 +223,10 @@
 
     .feature-item {
         padding-right: 0;
+    }
+
+    .price__container {
+        width: 100%;
     }
 
 }
