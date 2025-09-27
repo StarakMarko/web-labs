@@ -1,37 +1,30 @@
-const BASE_URL = "http://localhost:3002/api";
-const RESOURSE_URL = `${BASE_URL}/park`;
+const STORAGE_KEY = "parks_data";
 
-const baseRequest = async ({ urlPath = "", method = "GET", body = null }) => {
-    try {
-        const reqParams = {
-            method,
-            headers: {
-                "Content-Type": "application/json",
-            },
-        };
+const saveToStorage = (parks) => localStorage.setItem(STORAGE_KEY, JSON.stringify(parks));
+const loadFromStorage = () => JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
 
-        if (body) {
-            reqParams.body = JSON.stringify(body);
-        }
+export const getAllParks = async () => {
+    return loadFromStorage();
+};
 
-        return await fetch(`${RESOURSE_URL}${urlPath}`, reqParams);
-    } catch (error) {
-        console.error("HTTP ERROR: ", error);
+export const postPark = async (park) => {
+    const parks = loadFromStorage();
+    const newPark = { _id: crypto.randomUUID(), ...park };
+    parks.push(newPark);
+    saveToStorage(parks);
+    return newPark;
+};
+
+export const updatePark = async (id, updatedData) => {
+    const parks = loadFromStorage();
+    const index = parks.findIndex(p => p._id === id);
+    if (index !== -1) {
+        parks[index] = { ...parks[index], ...updatedData };
+        saveToStorage(parks);
     }
 };
 
-// public functionality
-
-export const getAllParks = async () => {
-    const rawResponse = await baseRequest({ method: "GET" });
-
-    return await rawResponse.json();
+export const deletePark = async (id) => {
+    const parks = loadFromStorage().filter(p => p._id !== id);
+    saveToStorage(parks);
 };
-
-export const postPark = (body) => baseRequest({ method: "POST", body });
-
-export const updatePark = (id, body) =>
-    baseRequest({ urlPath: `/${id}`, method: "PATCH", body });
-
-export const deletePark = (id) =>
-    baseRequest({ urlPath: `/${id}`, method: "DELETE" });

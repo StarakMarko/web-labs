@@ -11,50 +11,64 @@ const submitButton = document.getElementById("submit_button");
 const findButton = document.getElementById("find_button");
 const cancelFindButton = document.getElementById("cancel_find_button");
 const findInput = document.getElementById("find_input");
+const soptButton = document.getElementById("sort_button");
+const totalLengthElement = document.getElementById("total_length");
 
 let parks = [];
 
 const onEditItem = async (e) => {
     const itemId = e.target.id.replace(EDIT_BUTTON_PREFIX, "");
-
-
-    await updatePark(itemId, getInputValues())
-
+    await updatePark(itemId, getInputValues());
     clearInputs();
-
     refetchAllParks();
 };
 
-const onRemoveItem = (id) => deletePark(id).then(refetchAllParks);
+const onRemoveItem = async (id) => {
+    await deletePark(id);
+    refetchAllParks();
 
-export const refetchAllParks = async () => {
-    const allParks = await getAllParks();
-
-    parks = allParks;
-
-    renderItemsList(parks, onEditItem, onRemoveItem);
 };
 
-submitButton.addEventListener("click", (event) => {
-    // Prevents default page reload on submit
+const updateTotalLength = () => {
+    const total = parks.reduce((sum, park) => {
+        const length = parseFloat(park.length_of_bicycle_path) || 0;
+        return sum + length;
+    }, 0);
+
+    totalLengthElement.textContent = total;
+};
+
+export const refetchAllParks = async () => {
+    parks = await getAllParks();
+    renderItemsList(parks, onEditItem, onRemoveItem);
+    updateTotalLength();
+};
+
+
+submitButton.addEventListener("click", async (event) => {
     event.preventDefault();
 
     const { name, address, length_of_bicycle_path, price } = getInputValues();
-
     clearInputs();
-    addItemToPage({
-        name,
-        address,
-        length_of_bicycle_path,
-        price,
-    });
 
-    postPark({
-        name,
-        address,
-        length_of_bicycle_path,
-        price,
-    }).then(refetchAllParks);
+    const newPark = await postPark({ name, address, length_of_bicycle_path, price });
+
+    addItemToPage(newPark, onEditItem, onRemoveItem);
+
+    refetchAllParks();
+});
+
+let isSorted = false;
+
+soptButton.addEventListener("click", () => {
+    if (!isSorted) {
+        const sortedParks = [...parks].sort((a, b) => b.price - a.price);
+        renderItemsList(sortedParks, onEditItem, onRemoveItem);
+        isSorted = true;
+    } else {
+        renderItemsList(parks, onEditItem, onRemoveItem);
+        isSorted = false;
+    }
 });
 
 findButton.addEventListener("click", () => {
@@ -65,6 +79,8 @@ findButton.addEventListener("click", () => {
     );
 
     renderItemsList(foundParks, onEditItem, onRemoveItem);
+
+
 });
 
 cancelFindButton.addEventListener("click", () => {
