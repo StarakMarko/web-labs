@@ -13,8 +13,18 @@ const cancelFindButton = document.getElementById("cancel_find_button");
 const findInput = document.getElementById("find_input");
 const soptButton = document.getElementById("sort_button");
 const totalLengthElement = document.getElementById("total_length");
+const sortDescButton = document.getElementById("sort_desc_button");
 
 let parks = [];
+let currentParks = [];
+let isSorted = false;
+
+const defaultParks = [
+    { name: "Central Park", address: "New York, NY", length_of_bicycle_path: "10", price: 5 },
+    { name: "Hyde Park", address: "London, UK", length_of_bicycle_path: "8", price: 3 },
+    { name: "Tiergarten", address: "Berlin, Germany", length_of_bicycle_path: "7", price: 4 },
+];
+
 
 const onEditItem = async (e) => {
     const itemId = e.target.id.replace(EDIT_BUTTON_PREFIX, "");
@@ -29,8 +39,8 @@ const onRemoveItem = async (id) => {
 
 };
 
-const updateTotalLength = () => {
-    const total = parks.reduce((sum, park) => {
+const updateTotalLength = (list) => {
+    const total = list.reduce((sum, park) => {
         const length = parseFloat(park.length_of_bicycle_path) || 0;
         return sum + length;
     }, 0);
@@ -40,10 +50,18 @@ const updateTotalLength = () => {
 
 export const refetchAllParks = async () => {
     parks = await getAllParks();
-    renderItemsList(parks, onEditItem, onRemoveItem);
-    updateTotalLength();
-};
 
+    if (parks.length === 0) {
+        for (const park of defaultParks) {
+            await postPark(park);
+        }
+        parks = await getAllParks();
+    }
+
+    currentParks = parks;
+    renderItemsList(currentParks, onEditItem, onRemoveItem);
+    updateTotalLength(currentParks);
+};
 
 submitButton.addEventListener("click", async (event) => {
     event.preventDefault();
@@ -58,35 +76,73 @@ submitButton.addEventListener("click", async (event) => {
     refetchAllParks();
 });
 
-let isSorted = false;
 
-soptButton.addEventListener("click", () => {
-    if (!isSorted) {
-        const sortedParks = [...parks].sort((a, b) => b.price - a.price);
-        renderItemsList(sortedParks, onEditItem, onRemoveItem);
-        isSorted = true;
-    } else {
-        renderItemsList(parks, onEditItem, onRemoveItem);
-        isSorted = false;
-    }
-});
 
 findButton.addEventListener("click", () => {
-    console.log("Масив 'parks' перед пошуком:", parks);
+    const searchValue = findInput.value
+        .toLowerCase()
+        .replace(/\s+/g, "");
 
-    const foundParks = parks.filter(
-        park => park.name.search(findInput.value) !== -1
-    );
+    currentParks = parks.filter(park => {
+        const normalizedName = park.name.toLowerCase().replace(/\s+/g, "");
+        return normalizedName.includes(searchValue);
+    });
 
-    renderItemsList(foundParks, onEditItem, onRemoveItem);
-
-
+    renderItemsList(currentParks, onEditItem, onRemoveItem);
+    updateTotalLength(currentParks);
 });
 
 cancelFindButton.addEventListener("click", () => {
-    renderItemsList(parks, onEditItem, onRemoveItem);
+    currentParks = parks;
+    renderItemsList(currentParks, onEditItem, onRemoveItem);
+    updateTotalLength(currentParks);
 
     findInput.value = "";
+});
+
+soptButton.addEventListener("click", () => {
+    if (!isSorted) {
+        currentParks = [...currentParks].sort((a, b) => b.price - a.price);
+        isSorted = true;
+    } else {
+        if (findInput.value.trim()) {
+            const searchValue = findInput.value
+                .toLowerCase()
+                .replace(/\s+/g, "");
+            currentParks = parks.filter(park =>
+                park.name.toLowerCase().replace(/\s+/g, "").includes(searchValue)
+            );
+        } else {
+            currentParks = parks;
+        }
+        isSorted = false;
+    }
+
+    renderItemsList(currentParks, onEditItem, onRemoveItem);
+    updateTotalLength(currentParks);
+});
+
+sortDescButton.addEventListener("click", () => {
+    if (!isSorted) {
+        currentParks = [...currentParks].sort((a, b) => a.price - b.price);
+        isSorted = true;
+    } else {
+        if (findInput.value.trim()) {
+            const searchValue = findInput.value
+                .toLowerCase()
+                .replace(/\s+/g, "");
+
+            currentParks = parks.filter(park =>
+                park.name.toLowerCase().replace(/\s+/g, "").includes(searchValue)
+            );
+        } else {
+            currentParks = parks;
+        }
+        isSorted = false;
+    }
+
+    renderItemsList(currentParks, onEditItem, onRemoveItem);
+    updateTotalLength(currentParks);
 });
 
 // main code

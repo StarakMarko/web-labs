@@ -18,8 +18,8 @@ const itemTemplate = ({ id, name, address, length_of_bicycle_path, price }) => `
   <div class="card-body">
     <h5 class="card-name">${name}</h5>
     <p class="card-address">${address}</p>
-    <p class="card-length_of_bicycle_path">${length_of_bicycle_path}</p>
-    <p class="card-price">${price}</p>
+    <p class="card-length_of_bicycle_path">${length_of_bicycle_path} km</p>
+    <p class="card-price">${price} $</p>
     <button id="${EDIT_BUTTON_PREFIX}${id}" type="button" class="btn btn-info">
       Edit
     </button>
