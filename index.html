@@ -20,69 +20,17 @@
 </head>
 
 <body class="bg-light">
-    <div class="container p-3">
-        <div class="row mb-3">
-            <h1 class="text-center">Parks</h1>
-        </div>
-        <div class="row">
-            <div class="col-md-4 mt-2">
-                <form id="add_form" class="bg-light">
-                    <h3 class="mb-3">Create card</h3>
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name_input" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Address</label>
-                        <input type="text" class="form-control" id="address_input" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Length of bicycle path</label>
-                        <input type="text" class="form-control" id="length_of_bicycle_path_input" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Price</label>
-                        <input type="text" class="form-control" id="price_input" />
-                    </div>
-                    <button id="submit_button" type="submit" class="btn btn-primary">
-                        Submit
-                    </button>
-                </form>
-
-                <div class="mt-5">
-                    <h4 class="mb-3">Find cards</h4>
-                    <input id="find_input" type="text" class="form-control" />
-                    <button id="find_button" type="button" class="btn btn-primary mt-4">
-                        Find
-                    </button>
-                    <button id="cancel_find_button" type="button" class="btn btn-danger mt-4">
-                        Cancel
-                    </button>
-                    <button id="sort_button" type="button" class="btn btn-primary mt-4">
-                        Sort
-                    </button>
-                    <button id="sort_desc_button" type="button" class="btn btn-secondary mt-4">
-                        Sort Desc
-                    </button>
+    <div id="app-container" class="container p-3">
+    </div>
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="errorModalLabel">Input Error</h5>
                 </div>
-                <div class="mt-3">
-                    <strong>Total length of bicycle paths:</strong> <span id="total_length">0</span> km
+                <div class="modal-body" id="errorModalBody">
                 </div>
-
-            </div>
-
-            <ul id="items_container" class="col-md-4 mt-5 mt-md-2 mx-auto">
-
-            </ul>
-
-            <div class="col-md-4">
-                <div class="p-4">
-                    <div class="delete-section">
-                        <div class="text-center">
-                            <img class="delete-section__icon mb-4" src="./assets/basket.svg" alt="basket" />
-                            <div>Drop here to delete</div>
-                        </div>
-                    </div>
+                <div class="modal-footer">
                 </div>
             </div>
         </div>

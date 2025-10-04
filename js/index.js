@@ -1,149 +1,148 @@
 import {
-    EDIT_BUTTON_PREFIX,
-    addItemToPage,
-    clearInputs,
+    renderListView,
+    renderCreateForm,
+    renderEditForm,
     renderItemsList,
     getInputValues,
 } from "./dom_util.js";
 import { deletePark, getAllParks, postPark, updatePark } from "./api.js";
 
-const submitButton = document.getElementById("submit_button");
-const findButton = document.getElementById("find_button");
-const cancelFindButton = document.getElementById("cancel_find_button");
-const findInput = document.getElementById("find_input");
-const soptButton = document.getElementById("sort_button");
-const totalLengthElement = document.getElementById("total_length");
-const sortDescButton = document.getElementById("sort_desc_button");
+const appContainer = document.getElementById("app-container");
 
 let parks = [];
 let currentParks = [];
 let isSorted = false;
+const showListView = () => {
+    appContainer.innerHTML = renderListView();
 
-const defaultParks = [
-    { name: "Central Park", address: "New York, NY", length_of_bicycle_path: "10", price: 5 },
-    { name: "Hyde Park", address: "London, UK", length_of_bicycle_path: "8", price: 3 },
-    { name: "Tiergarten", address: "Berlin, Germany", length_of_bicycle_path: "7", price: 4 },
-];
+    document.getElementById("show_create_form_button").addEventListener("click", showCreateView);
+    document.getElementById("find_button").addEventListener("click", handleFind);
+    document.getElementById("cancel_find_button").addEventListener("click", handleCancelFind);
+    document.getElementById("sort_button").addEventListener("click", () => handleSort(false));
+    document.getElementById("sort_desc_button").addEventListener("click", () => handleSort(true));
+
+    renderItemsList(currentParks, onEditItem, onRemoveItem);
+    updateTotalLength(currentParks);
+};
+
+const showCreateView = () => {
+    appContainer.innerHTML = renderCreateForm();
+    document.getElementById("add_form").addEventListener("submit", handleCreateSubmit);
+    document.getElementById("cancel_button").addEventListener("click", showListView);
+};
+
+const showEditView = (parkId) => {
+    const park = parks.find(p => p._id === parkId);
+    if (!park) {
+        console.error("Park not found!");
+        showListView();
+        return;
+    }
+
+    appContainer.innerHTML = renderEditForm(park);
+    document.getElementById("edit_form").addEventListener("submit", handleEditSubmit);
+    document.getElementById("cancel_button").addEventListener("click", showListView);
+};
 
 
-const onEditItem = async (e) => {
-    const itemId = e.target.id.replace(EDIT_BUTTON_PREFIX, "");
-    await updatePark(itemId, getInputValues());
-    clearInputs();
-    refetchAllParks();
+const onEditItem = (parkId) => {
+    showEditView(parkId);
 };
 
 const onRemoveItem = async (id) => {
     await deletePark(id);
-    refetchAllParks();
+    await refetchAllParks(false);
+    renderItemsList(currentParks, onEditItem, onRemoveItem);
+    updateTotalLength(currentParks);
+};
 
+async function handleCreateSubmit(event) {
+    event.preventDefault();
+
+    const newParkData = getInputValues();
+
+    if (isNaN(parseFloat(newParkData.price)) || isNaN(parseFloat(newParkData.length_of_bicycle_path))) {
+        showErrorModal("Please enter numeric values for price and length of bicycle path.");
+        return;
+    }
+
+    await postPark(newParkData);
+    await refetchAllParks(true);
+}
+
+async function handleEditSubmit(event) {
+    event.preventDefault();
+
+    const parkId = document.getElementById("edit_id_input").value;
+    const updatedData = getInputValues();
+
+    if (isNaN(parseFloat(updatedData.price)) || isNaN(parseFloat(updatedData.length_of_bicycle_path))) {
+        showErrorModal("Please enter numeric values for price and length of bicycle path.");
+        return;
+    }
+
+    await updatePark(parkId, updatedData);
+    await refetchAllParks(true);
+}
+
+const handleFind = () => {
+    const findInput = document.getElementById("find_input");
+    const searchValue = findInput.value.toLowerCase().trim();
+    currentParks = parks.filter(park => park.name.toLowerCase().includes(searchValue));
+    renderItemsList(currentParks, onEditItem, onRemoveItem);
+    updateTotalLength(currentParks);
+};
+
+const handleCancelFind = () => {
+    currentParks = [...parks];
+    document.getElementById("find_input").value = "";
+    renderItemsList(currentParks, onEditItem, onRemoveItem);
+    updateTotalLength(currentParks);
+};
+
+const handleSort = (desc = false) => {
+    if (desc) {
+        currentParks.sort((a, b) => b.price - a.price);
+    } else {
+        currentParks.sort((a, b) => a.price - b.price);
+    }
+    renderItemsList(currentParks, onEditItem, onRemoveItem);
 };
 
 const updateTotalLength = (list) => {
-    const total = list.reduce((sum, park) => {
-        const length = parseFloat(park.length_of_bicycle_path) || 0;
-        return sum + length;
-    }, 0);
+    const totalLengthElement = document.getElementById("total_length");
+    if (!totalLengthElement) return;
 
-    totalLengthElement.textContent = total;
+    const total = list.reduce((sum, park) => sum + parseFloat(park.length_of_bicycle_path || 0), 0);
+    totalLengthElement.textContent = total.toFixed(2);
 };
 
-export const refetchAllParks = async () => {
+const refetchAllParks = async (render = true) => {
     parks = await getAllParks();
-
     if (parks.length === 0) {
+        const defaultParks = [
+            { name: "Central Park", address: "New York, NY", length_of_bicycle_path: "10", price: "5" },
+            { name: "Hyde Park", address: "London, UK", length_of_bicycle_path: "8", price: "3" },
+        ];
         for (const park of defaultParks) {
             await postPark(park);
         }
         parks = await getAllParks();
     }
+    currentParks = [...parks];
 
-    currentParks = parks;
-    renderItemsList(currentParks, onEditItem, onRemoveItem);
-    updateTotalLength(currentParks);
+    if (render) {
+        showListView();
+    }
 };
 
-submitButton.addEventListener("click", async (event) => {
-    event.preventDefault();
-
-    const { name, address, length_of_bicycle_path, price } = getInputValues();
-    clearInputs();
-
-    const newPark = await postPark({ name, address, length_of_bicycle_path, price });
-
-    addItemToPage(newPark, onEditItem, onRemoveItem);
-
+document.addEventListener('DOMContentLoaded', () => {
     refetchAllParks();
 });
+function showErrorModal(message) {
+    const modalBody = document.getElementById("errorModalBody");
+    modalBody.textContent = message;
 
-
-
-findButton.addEventListener("click", () => {
-    const searchValue = findInput.value
-        .toLowerCase()
-        .replace(/\s+/g, "");
-
-    currentParks = parks.filter(park => {
-        const normalizedName = park.name.toLowerCase().replace(/\s+/g, "");
-        return normalizedName.includes(searchValue);
-    });
-
-    renderItemsList(currentParks, onEditItem, onRemoveItem);
-    updateTotalLength(currentParks);
-});
-
-cancelFindButton.addEventListener("click", () => {
-    currentParks = parks;
-    renderItemsList(currentParks, onEditItem, onRemoveItem);
-    updateTotalLength(currentParks);
-
-    findInput.value = "";
-});
-
-soptButton.addEventListener("click", () => {
-    if (!isSorted) {
-        currentParks = [...currentParks].sort((a, b) => b.price - a.price);
-        isSorted = true;
-    } else {
-        if (findInput.value.trim()) {
-            const searchValue = findInput.value
-                .toLowerCase()
-                .replace(/\s+/g, "");
-            currentParks = parks.filter(park =>
-                park.name.toLowerCase().replace(/\s+/g, "").includes(searchValue)
-            );
-        } else {
-            currentParks = parks;
-        }
-        isSorted = false;
-    }
-
-    renderItemsList(currentParks, onEditItem, onRemoveItem);
-    updateTotalLength(currentParks);
-});
-
-sortDescButton.addEventListener("click", () => {
-    if (!isSorted) {
-        currentParks = [...currentParks].sort((a, b) => a.price - b.price);
-        isSorted = true;
-    } else {
-        if (findInput.value.trim()) {
-            const searchValue = findInput.value
-                .toLowerCase()
-                .replace(/\s+/g, "");
-
-            currentParks = parks.filter(park =>
-                park.name.toLowerCase().replace(/\s+/g, "").includes(searchValue)
-            );
-        } else {
-            currentParks = parks;
-        }
-        isSorted = false;
-    }
-
-    renderItemsList(currentParks, onEditItem, onRemoveItem);
-    updateTotalLength(currentParks);
-});
-
-// main code
-refetchAllParks();
+    const modal = new bootstrap.Modal(document.getElementById("errorModal"));
+    modal.show();
+}
