@@ -32,7 +32,7 @@ const showCreateView = () => {
 };
 
 const showEditView = (parkId) => {
-    const park = parks.find(p => p._id === parkId);
+    const park = parks.find(p => p.id === parkId);
     if (!park) {
         console.error("Park not found!");
         showListView();
@@ -146,3 +146,5 @@ function showErrorModal(message) {
     const modal = new bootstrap.Modal(document.getElementById("errorModal"));
     modal.show();
 }
+
+getAllParks().then(console.log);

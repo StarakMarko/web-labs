@@ -64,7 +64,7 @@ export const renderCreateForm = () => `
     </div>
 </div>`;
 
-export const renderEditForm = ({ _id: id, name, address, length_of_bicycle_path, price }) => `
+export const renderEditForm = ({ id: id, name, address, length_of_bicycle_path, price }) => `
 <div class="row justify-content-center">
     <div class="col-md-8">
         <h1 class="text-center mb-4">Edit Park</h1>
@@ -81,35 +81,35 @@ export const renderEditForm = ({ _id: id, name, address, length_of_bicycle_path,
 </div>`;
 
 
-export const addItemToPage = ({ _id: id, name, address, length_of_bicycle_path, price }, onEditItem, onRemoveItem) => {
-  const itemsContainer = document.getElementById("items_container");
-  if (!itemsContainer) return;
+export const addItemToPage = ({ id: id, name, address, length_of_bicycle_path, price }, onEditItem, onRemoveItem) => {
+    const itemsContainer = document.getElementById("items_container");
+    if (!itemsContainer) return;
 
-  itemsContainer.insertAdjacentHTML("afterbegin", itemTemplate({ id, name, address, length_of_bicycle_path, price }));
+    itemsContainer.insertAdjacentHTML("afterbegin", itemTemplate({ id, name, address, length_of_bicycle_path, price }));
 
-  const element = document.getElementById(id);
-  const editButton = document.getElementById(`${EDIT_BUTTON_PREFIX}${id}`);
+    const element = document.getElementById(id);
+    const editButton = document.getElementById(`${EDIT_BUTTON_PREFIX}${id}`);
 
-  element.onmousedown = onDragNDrop(element, onRemoveItem);
-  editButton.addEventListener("click", () => onEditItem(id));
-  editButton.onmousedown = e => e.stopPropagation();
+    element.onmousedown = onDragNDrop(element, onRemoveItem);
+    editButton.addEventListener("click", () => onEditItem(id));
+    editButton.onmousedown = e => e.stopPropagation();
 };
 
 export const renderItemsList = (items, onEditItem, onRemoveItem) => {
-  const itemsContainer = document.getElementById("items_container");
-  if (!itemsContainer) return;
+    const itemsContainer = document.getElementById("items_container");
+    if (!itemsContainer) return;
 
-  itemsContainer.innerHTML = "";
-  for (const item of items) {
-    addItemToPage(item, onEditItem, onRemoveItem);
-  }
+    itemsContainer.innerHTML = "";
+    for (const item of items) {
+        addItemToPage(item, onEditItem, onRemoveItem);
+    }
 };
 
 export const getInputValues = () => {
-  return {
-    name: document.getElementById("name_input").value,
-    address: document.getElementById("address_input").value,
-    length_of_bicycle_path: document.getElementById("length_of_bicycle_path_input").value,
-    price: document.getElementById("price_input").value,
-  };
+    return {
+        name: document.getElementById("name_input").value,
+        address: document.getElementById("address_input").value,
+        length_of_bicycle_path: document.getElementById("length_of_bicycle_path_input").value,
+        price: document.getElementById("price_input").value,
+    };
 };
