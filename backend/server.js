@@ -12,7 +12,7 @@ app.use(express.json());
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '',
+    password: '7002',
     database: 'nodemysql'
 });
 
@@ -30,15 +30,32 @@ app.get('/', (req, res) => {
 });
 
 app.get('/parks', (req, res) => {
-    const q = "SELECT * FROM parks";
-    db.query(q, (err, data) => {
-        if (err) {
-            return res.json(err);
-        }
-        return res.json(data);
+    let { search = '', sortBy = '', sortDesc = 'false' } = req.query;
 
-    })
+    let q = "SELECT * FROM parks";
+    const values = [];
+
+    if (search) {
+        q += " WHERE name LIKE ?";
+        values.push(`%${search}%`);
+    }
+
+    if (sortBy) {
+        const order = sortDesc === 'true' ? 'DESC' : 'ASC';
+        if (['price', 'length_of_bicycle_path', 'name'].includes(sortBy)) {
+            q += ` ORDER BY ${sortBy} ${order}`;
+        }
+    }
+
+    db.query(q, values, (err, data) => {
+        if (err) return res.status(500).json(err);
+
+        const totalLength = data.reduce((sum, park) => sum + parseFloat(park.length_of_bicycle_path || 0), 0);
+
+        return res.json({ parks: data, totalLength });
+    });
 });
+
 
 app.post('/parks', (req, res) => {
     const { name, address, length_of_bicycle_path, price } = req.body;

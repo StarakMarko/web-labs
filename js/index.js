@@ -85,56 +85,51 @@ async function handleEditSubmit(event) {
     await refetchAllParks(true);
 }
 
-const handleFind = () => {
+const handleFind = async () => {
     const findInput = document.getElementById("find_input");
-    const searchValue = findInput.value.toLowerCase().trim();
-    currentParks = parks.filter(park => park.name.toLowerCase().includes(searchValue));
+    const searchValue = findInput.value.trim();
+
+    const res = await getAllParks({ search: searchValue });
+    currentParks = res.parks;
     renderItemsList(currentParks, onEditItem, onRemoveItem);
-    updateTotalLength(currentParks);
+    updateTotalLength(res.totalLength);
 };
 
-const handleCancelFind = () => {
-    currentParks = [...parks];
+const handleCancelFind = async () => {
     document.getElementById("find_input").value = "";
+    const res = await getAllParks();
+    currentParks = res.parks;
     renderItemsList(currentParks, onEditItem, onRemoveItem);
-    updateTotalLength(currentParks);
+    updateTotalLength(res.totalLength);
 };
 
-const handleSort = (desc = false) => {
-    if (desc) {
-        currentParks.sort((a, b) => b.price - a.price);
-    } else {
-        currentParks.sort((a, b) => a.price - b.price);
-    }
+const handleSort = async (desc = false) => {
+    const res = await getAllParks({ sortBy: 'price', sortDesc: desc });
+    currentParks = res.parks;
+
     renderItemsList(currentParks, onEditItem, onRemoveItem);
+    updateTotalLength(res.totalLength);
 };
 
-const updateTotalLength = (list) => {
+
+const updateTotalLength = (total) => {
     const totalLengthElement = document.getElementById("total_length");
     if (!totalLengthElement) return;
 
-    const total = list.reduce((sum, park) => sum + parseFloat(park.length_of_bicycle_path || 0), 0);
-    totalLengthElement.textContent = total.toFixed(2);
+    totalLengthElement.textContent = parseFloat(total).toFixed(2);
 };
 
+
 const refetchAllParks = async (render = true) => {
-    parks = await getAllParks();
-    if (parks.length === 0) {
-        const defaultParks = [
-            { name: "Central Park", address: "New York, NY", length_of_bicycle_path: "10", price: "5" },
-            { name: "Hyde Park", address: "London, UK", length_of_bicycle_path: "8", price: "3" },
-        ];
-        for (const park of defaultParks) {
-            await postPark(park);
-        }
-        parks = await getAllParks();
-    }
-    currentParks = [...parks];
+    const res = await getAllParks();
+    currentParks = res.parks;
 
     if (render) {
         showListView();
+        updateTotalLength(res.totalLength);
     }
 };
+
 
 document.addEventListener('DOMContentLoaded', () => {
     refetchAllParks();
@@ -148,3 +143,6 @@ function showErrorModal(message) {
 }
 
 getAllParks().then(console.log);
+document.addEventListener('DOMContentLoaded', () => {
+    refetchAllParks();
+});

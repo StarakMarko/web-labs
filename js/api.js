@@ -20,10 +20,12 @@ const baseRequest = async ({ urlPath = "", method = 'GET', body = null }) => {
     } catch (error) { }
 }
 
-export const getAllParks = async () => {
-    const rawRes = await baseRequest({ method: "GET" });
+export const getAllParks = async ({ search = '', sortBy = '', sortDesc = false } = {}) => {
+    const queryParams = new URLSearchParams({ search, sortBy, sortDesc });
+    const rawRes = await baseRequest({ urlPath: `?${queryParams.toString()}`, method: "GET" });
     return rawRes.json();
 };
+
 
 export const postPark = (body) => baseRequest({ method: "POST", body });
 
