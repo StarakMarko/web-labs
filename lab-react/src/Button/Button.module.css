@@ -1,0 +1,22 @@
+.button {
+    display: block;
+    margin: 0 auto;
+    width: 129px;
+    height: 42px;
+    color: #FFFFFF;
+    font-family: 'Source Sans Pro';
+    font-size: 14px;
+    font-weight: bold;
+    font-style: normal;
+    text-decoration: none;
+    text-align: center;
+    background: #424242;
+    border: none;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 90px;
+    margin-top: 25px;
+    font-weight: bold;
+}

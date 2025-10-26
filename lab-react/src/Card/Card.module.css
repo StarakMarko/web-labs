@@ -1,0 +1,17 @@
+.card {
+    display: inline-block;
+    text-align: center;
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid black;
+    margin: 37px;
+}
+
+.card__img {
+    max-width: 300px;
+    border-radius: 5px;
+}
+
+.card__name {
+    font-size: large;
+}

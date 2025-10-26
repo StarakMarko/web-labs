@@ -1,0 +1,17 @@
+.hero__sestion {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.hero__img {
+    margin: 40px;
+}
+
+.hero__text {
+    font-size: 25px;
+    width: 570px;
+    margin: 30px;
+    font-family: 'Source Sans Pro';
+}
