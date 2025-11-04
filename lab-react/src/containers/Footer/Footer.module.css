@@ -1,3 +1,7 @@
+.footer__hr {
+    margin-top: 90px;
+}
+
 footer {
     max-width: 1100px;
     display: flex;
@@ -12,7 +16,6 @@ footer {
     width: 100%;
     display: grid;
     grid-template-columns: 1fr auto 1fr;
-    /* 2. Визначаємо 3 колонки (бічні рівні, центральна - авто) */
     align-items: center;
 }
 

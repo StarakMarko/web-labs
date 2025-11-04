@@ -4,7 +4,7 @@ function Button() {
     return (
         <div>
             <a href="" className={styles.button}>View more</a>
-            <hr></hr>
+
         </div>
     )
 }
