@@ -1,10 +1,9 @@
 import styles from './Button.module.css'
 
-function Button() {
+function Button({ onClick, text }) {
     return (
         <div>
-            <a href="" className={styles.button}>View more</a>
-
+            <button onClick={onClick} className={styles.button}>{text}</button>
         </div>
     )
 }

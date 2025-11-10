@@ -1,7 +1,9 @@
-import Header from './containers/Header/Header.jsx'
-import Home from './layout/Home.jsx'
-import CatalogPage from './layout/CatalogPage.jsx'
-import Footer from './containers/Footer/Footer.jsx'
+import { useState } from "react";
+import Header from './containers/Header/Header.jsx';
+import Home from './layout/Home.jsx';
+import CatalogPage from './layout/CatalogPage.jsx';
+import Footer from './containers/Footer/Footer.jsx';
+import ItemPage from './layout/ItemPage.jsx';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 const parks = [
@@ -35,21 +37,21 @@ const parks = [
   }
 ];
 
-
 function App() {
+  const [searchQuery, setSearchQuery] = useState("");
+
   return (
     <>
-      <Header></Header>
-      <main>
-        <Routes>
-          <Route path="/" element={<Home parks={parks} />} />
-          <Route path="/catalog" element={<CatalogPage parks={parks} />} />
-          <Route path="/cart" element={<>CartPage </>} />
-        </Routes>
-      </main>
+      <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      <Routes>
+        <Route path="/" element={<Home parks={parks} />} />
+        <Route path="/catalog" element={<CatalogPage parks={parks} searchQuery={searchQuery} />} />
+        <Route path="/item/:name" element={<ItemPage parks={parks} />} />
+        <Route path="/cart" element={<>CartPage</>} />
+      </Routes>
       <Footer />
     </>
   );
 }
 
-export default App
+export default App;

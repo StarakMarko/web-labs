@@ -2,7 +2,7 @@ import styles from './Header.module.css'
 import { useLocation } from 'react-router-dom'
 import { NavLink } from 'react-router-dom'
 
-function Header() {
+function Header({ searchQuery, setSearchQuery }) {
     const location = useLocation();
     const isCatalogPage = location.pathname === '/catalog';
 
@@ -36,7 +36,10 @@ function Header() {
 
                 {isCatalogPage && (
                     <div className={styles.searchContainer}>
-                        <input type="text" placeholder="" className={styles.searchInput} />
+                        <input type="text" placeholder="" value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value.trimStart())}
+                            className={styles.searchInput}
+                        />
                         <img src="../src/assets/search.png" alt="Search" className={styles.searchIcon} />
                     </div>
                 )}

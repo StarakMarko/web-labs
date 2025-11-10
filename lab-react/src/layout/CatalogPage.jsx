@@ -1,59 +1,53 @@
-import Filte from "../containers/Filter/Filter.jsx";
-import ProductCard from '../components/ProductCard/ProductCard.jsx';
+import { useState, useEffect } from "react";
+import FilterSection from "../containers/Filter/Filter.jsx";
+import ProductCard, { ProductCardContext } from '../components/ProductCard/ProductCard.jsx';
 
-const product = [
-    {
-        id: 1,
-        title: 'Amazing stuff 1',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-        price: 2415,
-        length_of_bicycle_path: 30,
-        address: "Universytetska St, 1"
-    },
-    {
-        id: 2,
-        title: 'Amazing stuff 2',
-        description: 'Nunc maximus, nulla ut commodo sagittis, sapien dui.',
-        price: 2415,
-        length_of_bicycle_path: 30,
-        address: "Universytetska St, 1"
-    },
-    {
-        id: 3,
-        title: 'Amazing stuff 3',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-        price: 2415,
-        length_of_bicycle_path: 30,
-        address: "Universytetska St, 1"
-    },
-    {
-        id: 4,
-        title: 'Amazing stuff 4',
-        description: 'Nunc maximus, nulla ut commodo sagittis, sapien dui.',
-        price: 2415,
-        length_of_bicycle_path: 30,
-        address: "Universytetska St, 1"
-    },
-];
 
-function CatalogPage({ parks }) {
+function CatalogPage({ parks, searchQuery }) {
+
+    const [filteredParks, setFilteredParks] = useState(parks);
+
+    const handleFilter = ({ price, length, word_count }) => {
+        let filtered = [...parks];
+
+        if (price === "low") filtered = filtered.filter(p => p.price <= 5);
+        if (price === "medium") filtered = filtered.filter(p => p.price > 5);
+
+        if (length === "short") filtered = filtered.filter(p => p.length_of_bicycle_path <= 10);
+        if (length === "medium") filtered = filtered.filter(p => p.length_of_bicycle_path > 10);
+
+        if (word_count === "low") filtered = filtered.filter(p => p.description.trim().split(/\s+/).length <= 30);
+        if (word_count === "medium") filtered = filtered.filter(p => p.description.trim().split(/\s+/).length > 30);
+
+        if (searchQuery.trim()) {
+            const query = searchQuery.toLowerCase();
+            filtered = filtered.filter(p =>
+                p.name.toLowerCase().includes(query) ||
+                p.description.toLowerCase().includes(query)
+            );
+        }
+
+        setFilteredParks(filtered);
+    };
+
+    useEffect(() => {
+        handleFilter({});
+    }, [searchQuery]);
+
     return (
         <>
-            <Filte />
-            {parks.map(park => (
-                <ProductCard
-                    key={park.name}
-                    name={park.name}
-                    description={park.description}
-                    price={park.price}
-                    imageUrl={park.imageUrl}
-                    length_of_bicycle_path={park.length_of_bicycle_path}
-                    address={park.address}
-                />
-            ))}
+            <FilterSection onFilter={handleFilter} />
+            {filteredParks.length > 0 ? (
+                filteredParks.map(park => (
+                    <ProductCardContext.Provider key={park.name} value={park}>
+                        <ProductCard />
+                    </ProductCardContext.Provider>
+                ))
+            ) : (
+                <p style={{ textAlign: 'center', marginTop: '20px' }}>no items found</p>
+            )}
         </>
-    )
-
+    );
 }
 
-export default CatalogPage
+export default CatalogPage; 

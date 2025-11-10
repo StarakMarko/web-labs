@@ -1,36 +1,35 @@
-import { useState } from 'react';
+import { useState, createContext, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './ProductCard.module.css';
 
-function ProductCard(props) {
+// Експортуємо контекст
+export const ProductCardContext = createContext();
+
+function ProductCard() {
     const [isExpanded, setIsExpanded] = useState(false);
+    const park = useContext(ProductCardContext);
+    const navigate = useNavigate();
 
     const handleToggleDetails = () => {
-        setIsExpanded(!isExpanded);
+        navigate(`/item/${encodeURIComponent(park.name)}`);
     };
 
     return (
         <div className={styles.card}>
             <img
-                src={props.imageUrl || "https://www.britainexpress.com/images/attractions/editor3/Green-Park-2349.jpg"}
-                alt={props.name}
+                src={park.imageUrl || "https://www.britainexpress.com/images/attractions/editor3/Green-Park-2349.jpg"}
+                alt={park.name}
                 className={styles.card__img}
             />
-            <h5 className={styles.card__title}>{props.name}</h5>
-            <p className={styles.card__description}>{props.description}</p>
+            <h5 className={styles.card__title}>{park.name}</h5>
+            <p className={styles.card__description}>{park.description}</p>
             <div className={styles.card__price_block}>
                 <strong>Price:</strong>
-                <span className={styles.card__price}>$ {props.price}</span>
+                <span className={styles.card__price}>$ {park.price}</span>
             </div>
 
-            {isExpanded && (
-                <div className={styles.card__details}>
-                    <p><strong>Address:</strong> {props.address}</p>
-                    <p><strong>length of bike paths:</strong> {props.length_of_bicycle_path} km</p>
-                </div>
-            )}
-
             <button className={styles.card__button} onClick={handleToggleDetails}>
-                {isExpanded ? 'Hide' : 'View more'}
+                View more
             </button>
         </div>
     );
