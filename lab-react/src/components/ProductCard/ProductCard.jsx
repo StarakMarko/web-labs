@@ -1,17 +1,14 @@
-import { useState, createContext, useContext } from 'react';
+import { usePark } from '../../containers/context/ParkContext.jsx';
 import { useNavigate } from 'react-router-dom';
 import styles from './ProductCard.module.css';
 
-// Експортуємо контекст
-export const ProductCardContext = createContext();
-
-function ProductCard() {
-    const [isExpanded, setIsExpanded] = useState(false);
-    const park = useContext(ProductCardContext);
+function ProductCard({ park }) {
+    const { setSelectedPark } = usePark();
     const navigate = useNavigate();
 
     const handleToggleDetails = () => {
-        navigate(`/item/${encodeURIComponent(park.name)}`);
+        setSelectedPark(park);
+        navigate(`/item`);
     };
 
     return (
@@ -24,8 +21,7 @@ function ProductCard() {
             <h5 className={styles.card__title}>{park.name}</h5>
             <p className={styles.card__description}>{park.description}</p>
             <div className={styles.card__price_block}>
-                <strong>Price:</strong>
-                <span className={styles.card__price}>$ {park.price}</span>
+                <strong>Price:</strong> <span>${park.price}</span>
             </div>
 
             <button className={styles.card__button} onClick={handleToggleDetails}>
