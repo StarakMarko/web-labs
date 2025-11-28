@@ -29,8 +29,19 @@ app.get('/', (req, res) => {
     res.send('ok');
 });
 
+app.get('/parks/:id', (req, res) => {
+    const parkId = req.params.id;
+    const q = "SELECT * FROM parks WHERE id = ?";
+
+    db.query(q, [parkId], (err, data) => {
+        if (err) return res.status(500).json(err);
+        if (data.length === 0) return res.status(404).json({ message: "Park not found" });
+        return res.json(data[0]);
+    });
+});
+
 app.get('/parks', async (req, res) => {
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    await new Promise(resolve => setTimeout(resolve, 1));
 
     let { search = '', sortBy = '', sortDesc = 'false', price = '', length = '', word_count = '' } = req.query;
 

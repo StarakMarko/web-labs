@@ -26,3 +26,14 @@ export const fetchFilteredParks = (filters = {}, searchQuery = "") => {
       throw err;
     });
 };
+
+export const fetchParkById = (id) => {
+  return axios
+    .get(`${API_URL}/parks/${id}`)
+    .then((res) => res.data)
+    .catch((err) => {
+      console.error(err);
+      throw err;
+    });
+};
+

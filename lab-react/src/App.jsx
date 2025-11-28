@@ -7,6 +7,7 @@ import Footer from "./containers/Footer/Footer.jsx";
 import ItemPage from "./layout/ItemPage.jsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ParkProvider } from "./containers/context/ParkContext.jsx";
+import CartPage from "./layout/CartPage.jsx";
 
 function App() {
   const [parks, setParks] = useState([]);
@@ -27,8 +28,8 @@ function App() {
           path="/catalog"
           element={<CatalogPage parks={parks} searchQuery={searchQuery} />}
         />
-        <Route path="/item" element={<ItemPage parks={parks} />} />
-        <Route path="/cart" element={<>CartPage</>} />
+        <Route path="/item/:id" element={<ItemPage parks={parks} />} />
+        <Route path="/cart" element={<CartPage />} />
       </Routes>
       <Footer />
     </ParkProvider>

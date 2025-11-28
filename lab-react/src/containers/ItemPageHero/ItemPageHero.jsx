@@ -1,14 +1,41 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { usePark } from '../context/ParkContext.jsx';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../state/actions';
+import { fetchParkById } from '../../utils/api.js';
 import styles from './ItemPageHero.module.css';
 
 function ItemPageHero() {
-  const { selectedPark: park } = usePark();
+  const { selectedPark: park, setSelectedPark } = usePark();
   const navigate = useNavigate();
-  const [activeCharacteristic, setActiveCharacteristic] = useState(1);
+  const { id } = useParams();
 
-  if (!park) return <p>Park not found</p>;
+  const [loading, setLoading] = useState(false);
+
+  const [activeCharacteristic, setActiveCharacteristic] = useState(1);
+  const [countValue, setCountValue] = useState(1);
+  const [selectValue, setSelectValue] = useState('Standart');
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!park && id) {
+      setLoading(true);
+      fetchParkById(id)
+        .then((fetchedPark) => {
+          setSelectedPark(fetchedPark);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.error('Error fetching park:', err);
+          setLoading(false);
+        });
+    }
+  }, [id, park, setSelectedPark]);
+
+  if (loading || !park) return <p>Loading...</p>;
+
+  const currentPrice = selectValue === 'VIP' ? park.price * 2 : park.price;
 
   return (
     <div className={styles.pageWrapper}>
@@ -44,14 +71,58 @@ function ItemPageHero() {
               <p><strong>Address:</strong> {park.address || '—'}</p>
             </div>
           )}
+
+          <div className={styles.formFields}>
+            <div className={styles.fieldGroup}>
+              <label htmlFor="countableInput">Countable field</label>
+              <input
+                type="number"
+                id="countableInput"
+                min="1"
+                step="1"
+                value={countValue}
+                onChange={(e) => setCountValue(Number(e.target.value))}
+              />
+            </div>
+
+            <div className={styles.fieldGroup}>
+              <label htmlFor="selectableInput">Selectable Field</label>
+              <select
+                id="selectableInput"
+                value={selectValue}
+                onChange={(e) => setSelectValue(e.target.value)}
+              >
+                <option value="Standart" >Standart</option>
+                <option value="VIP">VIP</option>
+              </select>
+            </div>
+          </div>
+
         </div>
       </div>
 
       <div className={styles.bottomBar}>
-        <p className={styles.priceTag}><strong>Price:</strong> ${park.price}</p>
+        <p className={styles.priceTag}><strong>Price:</strong> ${currentPrice * countValue}</p>
         <div className={styles.actionButtons}>
           <button className={styles.goBackBtn} onClick={() => navigate(-1)}>Go back</button>
-          <button className={styles.addToCartBtn}>Add to cart</button>
+          <button
+            className={styles.addToCartBtn}
+            onClick={() => {
+              const item = {
+                id: `${park.id}/${selectValue}`,
+                name: `${park.name} / ${selectValue}`,
+                price: currentPrice,
+                imageUrl: park.imageUrl,
+                options: { variant: selectValue },
+                quantity: Number(countValue) || 1,
+              };
+
+              dispatch(addToCart(item));
+              navigate('/cart');
+            }}
+          >
+            Add to cart
+          </button>
         </div>
       </div>
     </div>

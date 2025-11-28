@@ -8,7 +8,7 @@ function ProductCard({ park }) {
 
     const handleToggleDetails = () => {
         setSelectedPark(park);
-        navigate(`/item`);
+        navigate(`/item/${park.id}`);
     };
 
     return (
