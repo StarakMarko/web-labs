@@ -1,14 +1,16 @@
 import styles from './CartButtons.module.css'
-import { Link } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom';
 
-function CartButtons() {
+function CartButtons({ back_text = "Back to catalog", navigateTo = "/catalog", continueTo = "/checkout" }) {
+    const navigate = useNavigate();
+
     return <div className={styles.cartButtons}>
-        <Link to="/catalog" className={styles.goBackBtn}>
-            Back to catalog
-        </Link>
-        <Link to="/checkout" className={styles.ContinueBtn}>
+        <button onClick={() => navigate(navigateTo)} className={styles.goBackBtn}>
+            {back_text}
+        </button>
+        <button type="submit" form="checkoutForm" onClick={() => navigate(continueTo)} className={styles.ContinueBtn}>
             Continue
-        </Link>
+        </button>
     </div>;
 }
 

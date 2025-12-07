@@ -1,4 +1,4 @@
-import { ADD_TO_CART, REMOVE_FROM_CART } from "./actions";
+import { ADD_TO_CART, REMOVE_FROM_CART, CLEAR_CART } from "./actions";
 
 const initialState = {
   items: [],
@@ -55,6 +55,13 @@ export function cartReducer(state = initialState, action) {
         totalCount: newTotal,
       };
     }
+    case CLEAR_CART:
+      return {
+        ...state,
+        items: [],
+        totalCount: 0,
+      };
+
     default:
       return state;
   }
