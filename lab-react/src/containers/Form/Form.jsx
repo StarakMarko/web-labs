@@ -10,11 +10,24 @@ function Form() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    const savedEmail = localStorage.getItem('userEmail') || '';
+
+    const getUsers = () => {
+        try {
+            return JSON.parse(localStorage.getItem('registeredUsers')) || [];
+        } catch {
+            return [];
+        }
+    };
+
+    const currentUser = getUsers().find(u => u.email === savedEmail);
+    const initialName = currentUser ? currentUser.username : '';
+
     const formik = useFormik({
         initialValues: {
-            firstName: '',
+            firstName: initialName,
             lastName: '',
-            email: '',
+            email: savedEmail,
             phone: '',
             address: ''
         },
@@ -32,9 +45,24 @@ function Form() {
 
     });
 
+    const handleAutoFill = () => {
+        formik.setValues({
+            firstName: initialName || 'User',
+            lastName: 'User',
+            email: savedEmail || 'test@example.com',
+            phone: '0987654321',
+            address: 'lviv, street 123'
+        });
+    };
+
     return (
         <div className={styles.container} >
             <h2 className={styles.title}>Checkout</h2>
+
+            <button type="button" onClick={handleAutoFill} className={styles.secondaryButton}>
+                Auto Fill Data
+            </button>
+
             <form onSubmit={formik.handleSubmit} className={styles.form} id="checkoutForm">
 
                 <div className={styles.formRow}>

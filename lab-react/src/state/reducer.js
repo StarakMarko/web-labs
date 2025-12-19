@@ -1,4 +1,4 @@
-import { ADD_TO_CART, REMOVE_FROM_CART, CLEAR_CART } from "./actions";
+import { ADD_TO_CART, REMOVE_FROM_CART, CLEAR_CART, SET_CART } from "./actions";
 
 const initialState = {
   items: [],
@@ -7,6 +7,13 @@ const initialState = {
 
 export function cartReducer(state = initialState, action) {
   switch (action.type) {
+    case SET_CART:
+      return {
+        ...state,
+        items: action.payload.items || [],
+        totalCount: action.payload.totalCount || 0
+      };
+
     case ADD_TO_CART: {
       const addedProduct = action.payload;
       const qtyToAdd = Number(addedProduct.quantity) || 1;

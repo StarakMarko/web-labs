@@ -46,7 +46,7 @@
 .searchContainer {
     position: absolute;
     right: 0;
-    margin-right: 40px;
+    margin-right: 80px;
     display: flex;
     align-items: center;
 }
@@ -60,11 +60,20 @@
 
 .searchIcon {
     position: absolute;
-    /* Позиціонуємо іконку абсолютно всередині searchBox */
     left: 8px;
-    /* Відступ від правого краю поля вводу */
     width: 20px;
-    /* Розмір іконки */
     height: 20px;
+    cursor: pointer;
+}
+
+.log__out__btn {
+    position: absolute;
+    right: 0;
+    margin-right: 0px;
+    padding: 8px 16px;
+    border: none;
+    background-color: transparent;
+    color: rgb(248, 7, 7);
+    font-size: 16px;
     cursor: pointer;
 }

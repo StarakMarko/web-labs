@@ -66,3 +66,15 @@
 .submitButton:hover {
     background-color: #555;
 }
+
+.secondaryButton {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #777;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}

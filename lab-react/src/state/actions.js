@@ -1,6 +1,7 @@
 export const ADD_TO_CART = "ADD_TO_CART";
 export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 export const CLEAR_CART = "CLEAR_CART";
+export const SET_CART = "SET_CART";
 
 export function addToCart(product) {
   return {
@@ -19,5 +20,13 @@ export function removeFromCart(id, quantity = 1) {
 export function clearCart() {
   return {
     type: CLEAR_CART
+  };
+}
+
+
+export function setCart(cartState) {
+  return {
+    type: SET_CART,
+    payload: cartState
   };
 }

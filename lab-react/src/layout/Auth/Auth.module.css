@@ -1,0 +1,100 @@
+.authContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    padding: 20px;
+    background-color: white;
+}
+
+.authCard {
+    background: white;
+    padding: 40px;
+    width: 100%;
+    max-width: 450px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
+}
+
+.authCard h2 {
+    font-size: 24px;
+    margin-bottom: 30px;
+    color: #333;
+    font-weight: 400;
+    margin-top: 0;
+}
+
+.formGroup {
+    margin-bottom: 20px;
+}
+
+.formInput {
+    width: 100%;
+    padding: 10px 0;
+    border: none;
+    border-bottom: 2px solid #a0c3d2;
+    outline: none;
+    font-size: 16px;
+    color: #555;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+}
+
+.formInput::placeholder {
+    color: #ccc;
+}
+
+.formInput:focus {
+    border-bottom-color: #2c88d9;
+}
+
+.authFooter {
+    margin-top: 15px;
+    margin-bottom: 25px;
+    text-align: center;
+    font-size: 14px;
+    color: #000;
+}
+
+.authLink {
+    color: #2c88d9;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.authButton {
+    width: 100%;
+    padding: 15px;
+    background-color: #1f7bb5;
+    color: white;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.authButton:hover {
+    background-color: #155a8a;
+}
+
+.secondaryButton {
+    background-color: #e0e0e0;
+    color: #333;
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    width: 100%;
+    transition: background 0.3s;
+}
+
+.secondaryButton:hover {
+    background-color: #d0d0d0;
+}

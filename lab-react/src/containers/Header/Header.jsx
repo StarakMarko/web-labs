@@ -1,10 +1,16 @@
 import styles from './Header.module.css'
 import { useLocation } from 'react-router-dom'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 
 function Header({ searchQuery, setSearchQuery }) {
     const location = useLocation();
     const isCatalogPage = location.pathname === '/catalog';
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem("userEmail");
+        navigate("/login");
+    };
 
     return (
         <header className={styles.header}>
@@ -43,6 +49,7 @@ function Header({ searchQuery, setSearchQuery }) {
                         <img src="../src/assets/search.png" alt="Search" className={styles.searchIcon} />
                     </div>
                 )}
+                <button onClick={handleLogout} className={styles.log__out__btn} >Log Out</button>
             </section>
             <hr></hr>
         </header>
